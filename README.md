@@ -6,6 +6,8 @@ hundreds of gigabytes.
 
 It shows the size of every item and asks before deleting anything.
 
+**It never removes applications** — only caches, build artifacts and developer data.
+
 ## Requirements
 
 - macOS 10.15 (Catalina) or newer — the script uses `zsh`
@@ -30,7 +32,7 @@ Always start with `--dry-run`.
 Items are labelled by risk:
 
 - **SAFE** — caches and build artifacts that are regenerated automatically.
-- **REVIEW** — things you might still need (emulators, simulator data, apps).
+- **REVIEW** — data you might still need (emulators, simulator data, Docker images).
   These always prompt, default to **No**, and are never auto-accepted.
 
 | Area | SAFE | REVIEW |
@@ -42,7 +44,6 @@ Items are labelled by risk:
 | JetBrains | Settings/caches of older IDE versions, IDE caches | — |
 | Browsers & apps | Chrome, Opera, Firefox, Claude HTTP caches, other third-party caches | — |
 | System | User logs, diagnostic reports, downloaded macOS updates, Trash | — |
-| Apps | — | iMovie, GarageBand (+ loops), Keynote, Pages, Numbers, Android Studio, Xcode, IntelliJ IDEA, PyCharm, PhpStorm, Teams, Opera, Firefox |
 
 Apple's own caches (`~/Library/Caches/com.apple.*`, CloudKit) are deliberately left alone.
 Anything that doesn't exist on your Mac, or is smaller than 10 MB, is skipped.
@@ -52,13 +53,10 @@ Anything that doesn't exist on your Mac, or is smaller than 10 MB, is skipped.
 - **Project folders** scanned for stale `node_modules` are set near the
   `stale_nm=` line — change `~/dantweb ~/osc ~/PhpstormProjects` to wherever
   you keep your code (e.g. `~/Projects ~/Developer`).
-- **Apps** offered for removal are listed in the *Apps you may not use* section;
-  add or remove `clean REVIEW ...` lines as needed.
 
 ## Notes
 
-- The dry-run total is an upper bound: some items overlap (e.g. removing Xcode
-  includes simulator data listed earlier).
+- The dry-run total is an upper bound: some items overlap.
 - Docker's VM disk is only pruned when Docker Desktop is running. Otherwise use
   *Docker Desktop → Troubleshoot → Clean / Purge data*.
 - After cleaning, empty the Trash and restart so macOS releases purgeable space.

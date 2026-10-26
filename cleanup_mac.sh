@@ -1,5 +1,6 @@
 #!/bin/zsh
 # Interactive macOS disk cleanup tailored to this machine.
+# It never removes applications — only caches, build artifacts and dev data.
 # Shows the size of every item and asks before removing it.
 #
 # Usage (run as your normal user, NOT with sudo — it asks for sudo only when needed):
@@ -130,26 +131,6 @@ clean SAFE "User logs"                     ~/Library/Logs/*
 clean SAFE "System logs & diagnostics"     --sudo /Library/Logs/DiagnosticReports/* /private/var/log/asl/*.asl
 clean SAFE "Downloaded macOS updates (/Library/Updates)" --sudo /Library/Updates/*
 clean SAFE "Trash"                         ~/.Trash/*
-
-echo "\n================ Apps you may not use ================"
-# Each app plus its support data. Answer y only if you don't use it.
-clean REVIEW "iMovie"            --sudo /Applications/iMovie.app ~/Movies/iMovie*
-clean REVIEW "GarageBand (+ sound libraries)" --sudo /Applications/GarageBand.app \
-  "/Library/Application Support/GarageBand" "/Library/Application Support/Logic" /Library/Audio/Apple\ Loops
-clean REVIEW "Keynote"           --sudo /Applications/Keynote.app
-clean REVIEW "Pages"             --sudo /Applications/Pages.app
-clean REVIEW "Numbers"           --sudo /Applications/Numbers.app
-clean REVIEW "Android Studio (+ SDK, emulators)" --sudo /Applications/Android\ Studio.app \
-  ~/Library/Android ~/.android ~/Library/Application\ Support/Google/AndroidStudio* ~/Library/Caches/Google/AndroidStudio*
-clean REVIEW "Xcode (+ simulators, device support — only if you don't build iOS apps)" --sudo /Applications/Xcode.app \
-  ~/Library/Developer/Xcode ~/Library/Developer/CoreSimulator /Library/Developer/CoreSimulator
-clean REVIEW "IntelliJ IDEA (+ settings)" --sudo /Applications/IntelliJ\ IDEA.app "$JB"/IntelliJIdea*
-clean REVIEW "PyCharm (+ settings)"       --sudo /Applications/PyCharm.app "$JB"/PyCharm* "$JB"/Pycharm
-clean REVIEW "PhpStorm (+ settings)"      --sudo /Applications/PhpStorm.app "$JB"/PhpStorm* "$JB"/Phpstorm
-clean REVIEW "Microsoft Teams (+ data)"   --sudo /Applications/Microsoft\ Teams.app \
-  ~/Library/Containers/com.microsoft.teams2 ~/Library/Group\ Containers/*.com.microsoft.teams
-clean REVIEW "Opera (+ profile)"          --sudo /Applications/Opera.app ~/Library/Application\ Support/com.operasoftware.Opera
-clean REVIEW "Firefox (+ profile)"        --sudo /Applications/Firefox.app ~/Library/Application\ Support/Firefox
 
 echo "\n=========================================================="
 if [[ $DRY_RUN -eq 1 ]]; then
